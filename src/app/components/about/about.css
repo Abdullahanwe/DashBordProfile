@@ -1,0 +1,57 @@
+.container {
+  padding: 20px;
+}
+
+.card {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.btn {
+  margin-right: 5px;
+}
+
+table {
+  width: 100%;
+}
+.social-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: white !important;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  .social-icon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  .social-icon i {
+    font-size: 14px;
+  }
+  .form-control-color {
+    height: 38px;
+    padding: 3px;
+  }
+.delete-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
+
+.delete-box {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+}

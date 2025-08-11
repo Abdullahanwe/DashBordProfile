@@ -1,0 +1,99 @@
+<div class="container mt-4">
+  <h2 class="mb-3">{{ isEditing ? 'Edit Data' : 'Add New' }}</h2>
+
+  <form *ngIf="isFormVisible" [formGroup]="aboutForm" (ngSubmit)="submitForm()" enctype="multipart/form-data">
+
+    <!-- Title -->
+    <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input type="text" id="title" class="form-control" formControlName="title" placeholder="Enter title">
+      <div class="text-danger" *ngIf="aboutForm.get('title')?.invalid && aboutForm.get('title')?.touched">
+        Title is required and must not exceed 100 characters
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea id="description" class="form-control" formControlName="description" rows="4"></textarea>
+      <div class="text-danger" *ngIf="aboutForm.get('description')?.invalid && aboutForm.get('description')?.touched">
+        Description is required
+      </div>
+    </div>
+
+    <!-- Social Links -->
+    <div formArrayName="socialLinks" class="mb-3">
+      <label class="form-label">Social Links</label>
+      <div *ngFor="let link of socialLinks.controls; let i = index" [formGroupName]="i" class="border p-3 rounded mb-2">
+
+        <div class="row">
+          <div class="col-md-3 mb-2">
+            <input type="text" class="form-control" formControlName="name" placeholder="Platform name">
+          </div>
+          <div class="col-md-3 mb-2">
+            <input type="text" class="form-control" formControlName="icon" placeholder="Icon class">
+          </div>
+          <div class="col-md-4 mb-2">
+            <input type="url" class="form-control" formControlName="url" placeholder="URL">
+          </div>
+          <div class="col-md-1 mb-2">
+            <input type="color" class="form-control form-control-color" formControlName="color">
+          </div>
+          <div class="col-md-1 mb-2">
+            <button type="button" class="btn btn-danger w-100" (click)="removeSocialLink(i)">-</button>
+          </div>
+        </div>
+
+      </div>
+      <button type="button" class="btn btn-primary mt-2" (click)="addSocialLink()">Add Link</button>
+    </div>
+
+    <!-- Image Upload -->
+    <div class="mb-3">
+      <label class="form-label">Image</label>
+      <input type="file" class="form-control" (change)="onFileSelected($event)">
+    </div>
+
+    <!-- Buttons -->
+    <button type="submit" class="btn btn-success me-2" [disabled]="aboutForm.invalid">
+      {{ isEditing ? 'Update' : 'Save' }}
+    </button>
+    <button type="button" class="btn btn-secondary" (click)="resetForm()">Cancel</button>
+  </form>
+
+  <!-- Data List -->
+  <hr class="my-4">
+  <h3>List</h3>
+  <div *ngIf="isLoading">Loading...</div>
+  <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+  <div *ngIf="abouts.length > 0" class="">
+    <div class="row " *ngFor="let about of abouts">
+      <div class="card mb-3 d-flex flex-row-reverse">
+        <div>
+          <img *ngIf="about.imageUrl" [src]="about.imageUrl" class="card-img-top" alt="Image">
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{ about.title }}</h5>
+          <p class="card-text">{{ about.description }}</p>
+          <div>
+            <a *ngFor="let link of about.socialLinks" [href]="link.url" target="_blank" [style.color]="link.color"
+              class="me-2">
+              <i [class]="link.icon"></i>
+            </a>
+          </div>
+          <button class="btn btn-warning btn-sm mt-2 me-2" (click)="editAbout(about)">Edit</button>
+          <button (click)="askDelete(about.id || about._id)" class="btn btn-danger btn-sm mt-2 me-2">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div *ngIf="showDeleteConfirm" class="delete-overlay">
+  <div class="delete-box">
+    <p>Are you sure you want to delete?</p>
+    <button (click)="confirmDelete()" class="btn btn-danger me-2">Yes</button>
+    <button (click)="cancelDelete()" class="btn btn-secondary">No</button>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+
+<div *ngFor="let contact of contacts" class="contact-card">
+  <h3>{{ contact.name }}</h3>
+  <p><strong>Email:</strong> {{ contact.email }}</p>
+  <p><strong>Message:</strong> {{ contact.message }}</p>
+  <button (click)="askDelete(contact._id)">Delete</button>
+  <hr />
+</div>
+
+<div *ngIf="showDeleteConfirm" class="delete-overlay">
+  <div class="delete-box">
+    <p>Are you sure you want to delete?</p>
+    <button (click)="confirmDelete()" class="btn btn-danger me-2">Yes</button>
+    <button (click)="cancelDelete()" class="btn btn-secondary">No</button>
+  </div>
+</div>

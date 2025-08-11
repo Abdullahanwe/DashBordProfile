@@ -1,0 +1,108 @@
+<div class="container mt-4">
+  <h3>My Skills</h3>
+
+  <!-- Form -->
+  <div class="card mb-4">
+    <div class="card-header">
+      {{ isEditing ? 'Edit Skill' : 'Add Skill' }}
+    </div>
+    <div class="card-body">
+      <form (ngSubmit)="isEditing ? updateSkill() : addSkill()" #skillForm="ngForm">
+
+        <!-- Skill Name -->
+        <div class="mb-3">
+          <label for="name" class="form-label">Skill Name</label>
+          <input
+            type="text"
+            id="name"
+            class="form-control"
+            [(ngModel)]="currentSkill.name"
+            name="name"
+            required>
+        </div>
+
+        <!-- Level -->
+        <div class="mb-3">
+          <label for="level" class="form-label">Level</label>
+          <select
+            id="level"
+            class="form-control"
+            [(ngModel)]="currentSkill.level"
+            name="level"
+            required>
+            <option value="">Select Level</option>
+            <option>Beginner</option>
+            <option>Intermediate</option>
+            <option>Advanced</option>
+            <option>Expert</option>
+          </select>
+        </div>
+
+        <!-- Icon -->
+        <div class="mb-3">
+          <label for="icon" class="form-label">Icon (Font Awesome class)</label>
+          <input
+            type="text"
+            id="icon"
+            class="form-control"
+            [(ngModel)]="currentSkill.icon"
+            name="icon"
+            placeholder="مثال: fa-html5"
+            required>
+          <small class="text-muted">Example: fa-brands fa-angular, fa-brands fa-js, fa-solid fa-database</small>
+        </div>
+
+        <!-- Buttons -->
+        <button class="btn btn-primary me-2" type="submit">
+          {{ isEditing ? 'Update Skill' : 'Add Skill' }}
+        </button>
+        <button
+          *ngIf="isEditing"
+          class="btn btn-secondary"
+          type="button"
+          (click)="resetForm()">
+          Cancel
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Skills List -->
+  <div class="card">
+    <div class="card-header">Skills List</div>
+    <ul class="list-group list-group-flush">
+      <li
+        *ngFor="let skill of skills"
+        class="list-group-item d-flex justify-content-between align-items-center">
+
+        <!-- Skill Info -->
+        <div>
+          <i [class]="'me-2 ' + skill.icon"></i>
+          <strong>{{ skill.name }}</strong> -
+          <span class="text-muted">{{ skill.level }}</span>
+        </div>
+
+        <!-- Actions -->
+        <div>
+          <button
+            class="btn btn-sm btn-outline-primary me-2"
+            (click)="startEdit(skill)">
+            Edit
+          </button>
+          <button
+            class="btn btn-sm btn-outline-danger"
+            (click)="askDelete(skill._id!)">
+            Delete
+          </button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<div *ngIf="showDeleteConfirm" class="delete-overlay">
+  <div class="delete-box">
+    <p>Are you sure you want to delete?</p>
+    <button (click)="confirmDelete()" class="btn btn-danger me-2">Yes</button>
+    <button (click)="cancelDelete()" class="btn btn-secondary">No</button>
+  </div>
+</div>

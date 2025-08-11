@@ -1,0 +1,27 @@
+<div class="sidebar-wrapper" [class.collapsed]="isCollapsed">
+  <!-- Sidebar Content -->
+  <div class="sidebar d-flex flex-column bg-dark text-white h-100">
+    <!-- Toggle Button (Mobile) -->
+    <div class="d-lg-none p-3 text-end">
+      <button class="btn btn-sm btn-outline-light" (click)="toggleCollapse()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <!-- Logo -->
+    <div class="sidebar-header p-3 text-center border-bottom border-secondary">
+      <h4 class="fw-bold text-white mb-0">MyPortfolio</h4>
+    </div>
+
+    <!-- Navigation Links -->
+    <ul class="nav flex-column flex-grow-1 p-2">
+      <li class="nav-item mb-2" *ngFor="let item of navItems">
+        <a [routerLink]="item.link" routerLinkActive="active"
+          class="nav-link text-white d-flex align-items-center py-2 px-3 rounded" (click)="closeOnMobile()">
+          <i [class]="item.icon"></i>
+          <span class="ms-2">{{ item.label }}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
